@@ -28,16 +28,21 @@ make_inner_pkg() {
   local tailscale_dir="_tailscale/tailscale_${TAILSCALE_VERSION}_${ARCH}"
 
   echo ">>> Making inner package.tgz"
-  mkdir -p ${tmp_dir}/bin
-  cp -a ${tailscale_dir}/tailscale{,d} ${tmp_dir}/bin/
+  mkdir -p "${tmp_dir}/bin"
+  cp -a ${tailscale_dir}/tailscale{,d} "${tmp_dir}/bin/"
 
-  mkdir -p ${tmp_dir}/conf
-  cp -a src/tailscaled_logrotate ${tmp_dir}/conf/logrotate.conf
+  mkdir -p "${tmp_dir}/ui"
+  cp -a src/config "${tmp_dir}/ui/"
+  cp -a src/PACKAGE_ICON_256.PNG "${tmp_dir}/ui/"
+  GOARCH=$ARCH go build -o "${tmp_dir}/ui/index.cgi" src/index.cgi.go
+
+  mkdir -p "${tmp_dir}/conf"
+  cp -a src/tailscaled_logrotate "${tmp_dir}/conf/logrotate.conf"
 
   pkg_size=$(du -sk "${tmp_dir}" | awk '{print $1}')
   echo "${pkg_size}" >>"$dest_dir/extractsize_tmp"
 
-  ls --color=no $tmp_dir | tar -cJf $dest_pkg -C "$tmp_dir" -T /dev/stdin
+  ls --color=no "$tmp_dir" | tar -cJf $dest_pkg -C "$tmp_dir" -T /dev/stdin
 }
 
 spk_build_part() {
