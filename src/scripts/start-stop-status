@@ -5,7 +5,7 @@ PID_FILE="${SYNOPKG_PKGDEST}/var/tailscaled.pid"
 LOG_FILE="${SYNOPKG_PKGDEST}/var/tailscaled.log"
 STATE_FILE="${SYNOPKG_PKGDEST}/var/tailscaled.state"
 SOCKET_FILE="${SYNOPKG_PKGDEST}/var/tailscaled.sock"
-PORT="41642"
+PORT="51641"
 
 SERVICE_COMMAND="${SYNOPKG_PKGDEST}/bin/tailscaled \
 --state=${STATE_FILE} \
